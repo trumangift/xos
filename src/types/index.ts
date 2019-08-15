@@ -19,4 +19,5 @@ export interface XosRequestConfig {
   method?: Method
   data?: any
   param?: any
+  header?: any
 }

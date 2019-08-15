@@ -56,9 +56,38 @@ import xos from '../../src/index';
 //   }
 // });
 
+// xos({
+//   method: 'post',
+//   url: '/base/post',
+//   data: {
+//       a: 1,
+//       b: 2,
+//       baz: null
+//   }
+// });
+
+// xos({
+//   method: 'post',
+//   url: '/base/buffer',
+//   data: new Blob(['1','2','3'], {type: 'text/html'})
+// });
+
+// const intArray = new Int32Array([22,42]);
+// xos({
+//   method: 'post',
+//   url: '/base/buffer',
+//   data: intArray
+// });
+
+
+
 xos({
   method: 'post',
   url: '/base/post',
+  header: {
+     'content-type': 'application/json;charset=utf-8',
+     'Accept': 'application/json,text/plain,*/*'
+  },
   data: {
       a: 1,
       b: 2,
@@ -66,15 +95,11 @@ xos({
   }
 });
 
-xos({
-  method: 'post',
-  url: '/base/buffer',
-  data: new Blob(['1','2','3'], {type: 'text/html'})
-});
+let paramsData = 'c=1&d=2';
+let searchParams = new URLSearchParams(paramsData);
 
-const intArray = new Int32Array([22,42]);
 xos({
   method: 'post',
-  url: '/base/buffer',
-  data: intArray
+  url: '/base/post',
+  data: searchParams,
 });
