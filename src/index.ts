@@ -2,6 +2,7 @@ import { XosRequestConfig } from './types/index'
 import xhr from './xhr'
 import { buildUrl } from './tools/url'
 import { transformSendData, processHeaders } from './tools/util'
+import { XosPromise } from './types/index'
 
 function processConfig(config: XosRequestConfig): void {
   const { url, param, data, header } = config
@@ -10,9 +11,9 @@ function processConfig(config: XosRequestConfig): void {
   config.data = transformSendData(data)
 }
 
-function xos(config: XosRequestConfig): void {
+function xos(config: XosRequestConfig): XosPromise {
   processConfig(config)
-  xhr(config)
+  return xhr(config)
 }
 
 export default xos

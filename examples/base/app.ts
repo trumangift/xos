@@ -81,6 +81,30 @@ import xos from '../../src/index';
 
 
 
+// xos({
+//   method: 'post',
+//   url: '/base/post',
+//   header: {
+//      'content-type': 'application/json;charset=utf-8',
+//      'Accept': 'application/json,text/plain,*/*'
+//   },
+//   data: {
+//       a: 1,
+//       b: 2,
+//       baz: null
+//   }
+// });
+
+// let paramsData = 'c=1&d=2';
+// let searchParams = new URLSearchParams(paramsData);
+
+// xos({
+//   method: 'post',
+//   url: '/base/post',
+//   data: searchParams,
+// });
+
+
 xos({
   method: 'post',
   url: '/base/post',
@@ -92,14 +116,24 @@ xos({
       a: 1,
       b: 2,
       baz: null
-  }
+  },
+}).then(d => {
+   console.log(d);
 });
-
-let paramsData = 'c=1&d=2';
-let searchParams = new URLSearchParams(paramsData);
 
 xos({
-  method: 'post',
-  url: '/base/post',
-  data: searchParams,
-});
+   method: 'post',
+   url: '/base/post',
+   header: {
+      'content-type': 'application/json;charset=utf-8',
+      'Accept': 'application/json,text/plain,*/*'
+   },
+   data: {
+       a: 1,
+       b: 2,
+       baz: null
+   },
+   responseType: 'json'
+ }).then(d => {
+    console.log(d);
+ });

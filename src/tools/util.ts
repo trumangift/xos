@@ -40,3 +40,20 @@ export function processHeaders(headers: any, data: any): any {
   }
   return headers
 }
+
+export function transResponseHeaderToJSON(header: string): any {
+  let parsed = Object.create(null)
+  if (!header) {
+    return parsed
+  }
+  header.split('\r\n').forEach(line => {
+    let [key, value] = line.split(':')
+    if (!key) {
+      return
+    }
+    if (value) {
+      parsed[key.trim().toLowerCase()] = value.trim()
+    }
+  })
+  return parsed
+}
