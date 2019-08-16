@@ -1,3 +1,5 @@
+import { type } from 'os'
+
 const toStr = Object.prototype.toString
 
 export function isDate(val: any): val is Date {
@@ -36,6 +38,9 @@ export function processHeaders(headers: any, data: any): any {
   if (isPlainObject(data)) {
     if (headers && !headers['Content-Type']) {
       headers['Content-Type'] = 'application/json;charset=utf-8'
+    } else if (!headers) {
+      headers = Object.create(null)
+      headers['Content-Type'] = 'application/json;charset=utf-8'
     }
   }
   return headers
@@ -56,4 +61,13 @@ export function transResponseHeaderToJSON(header: string): any {
     }
   })
   return parsed
+}
+
+export function transformResponseData(data: any): any {
+  if (typeof data === 'string') {
+    try {
+      data = JSON.parse(data)
+    } catch {}
+  }
+  return data
 }

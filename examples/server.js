@@ -87,11 +87,9 @@ function registerErrorRouter () {
   })
 
   router.get('/error/timeout', function(req, res) {
-    setTimeout(() => {
-      res.json({
-        msg: `hello world`
-      })
-    }, 3000)
+    res.json({
+      msg: `hello world`
+    })
   })
 }
 

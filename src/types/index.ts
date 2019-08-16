@@ -21,6 +21,7 @@ export interface XosRequestConfig {
   param?: any
   header?: any
   responseType?: XMLHttpRequestResponseType
+  timeout?: number
 }
 
 export interface XosResponseConfig {

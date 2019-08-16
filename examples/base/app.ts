@@ -95,45 +95,88 @@ import xos from '../../src/index';
 //   }
 // });
 
-// let paramsData = 'c=1&d=2';
-// let searchParams = new URLSearchParams(paramsData);
-
-// xos({
-//   method: 'post',
-//   url: '/base/post',
-//   data: searchParams,
-// });
-
+let paramsData = 'c=1&d=2';
+let searchParams = new URLSearchParams(paramsData);
 
 xos({
   method: 'post',
   url: '/base/post',
-  header: {
-     'content-type': 'application/json;charset=utf-8',
-     'Accept': 'application/json,text/plain,*/*'
-  },
-  data: {
-      a: 1,
-      b: 2,
-      baz: null
-  },
-}).then(d => {
-   console.log(d);
+  data: searchParams,
 });
 
-xos({
-   method: 'post',
-   url: '/base/post',
-   header: {
-      'content-type': 'application/json;charset=utf-8',
-      'Accept': 'application/json,text/plain,*/*'
-   },
-   data: {
-       a: 1,
-       b: 2,
-       baz: null
-   },
-   responseType: 'json'
- }).then(d => {
-    console.log(d);
- });
+
+// xos({
+//   method: 'post',
+//   url: '/base/post',
+//   header: {
+//      'content-type': 'application/json;charset=utf-8',
+//      'Accept': 'application/json,text/plain,*/*'
+//   },
+//   data: {
+//       a: 1,
+//       b: 2,
+//       baz: null
+//   },
+// }).then(d => {
+//    console.log(d);
+// });
+
+// xos({
+//    method: 'post',
+//    url: '/base/post',
+//    header: {
+//       'content-type': 'application/json;charset=utf-8',
+//       'Accept': 'application/json,text/plain,*/*'
+//    },
+//    data: {
+//        a: 1,
+//        b: 2,
+//        baz: null
+//    },
+//    responseType: 'json'
+//  }).then(d => {
+//     console.log(d);
+//  });
+
+
+// xos({
+//    method: 'post',
+//    url: '/base/post',
+//    data: {
+//        a: 1,
+//        b: 2,
+//        baz: null
+//    },
+//    timeout: 4000
+//  }).then(d => {
+//     console.log(d);
+//  });
+
+// xos({
+//    method: 'post',
+//    url: '/base/post/a',
+//    data: {
+//        a: 1,
+//        b: 2,
+//        baz: null
+//    },
+//  }).then(d => {
+//     console.log(d);
+//  }).catch(e => {
+//     console.log(e);
+//  })
+
+// xos({
+//    method: 'post',
+//    url: '/base/post/a',
+//    data: {
+//        a: 1,
+//        b: 2,
+//        baz: null
+//    },
+//    timeout: 4000
+//  }).then(d => {
+//     console.log(d);
+//  }).catch(e => {
+//     console.log(e);
+//  })
