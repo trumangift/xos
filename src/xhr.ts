@@ -1,5 +1,7 @@
-import { XosRequestConfig, XosResponseConfig, XosPromise } from './types/index'
-import { transResponseHeaderToJSON, transformResponseData } from './tools/util'
+import { XosRequestConfig, XosResponseConfig, XosPromise } from './types/index';
+import { transResponseHeaderToJSON, transformResponseData } from './tools/util';
+import { createError } from './tools/error';
+
 
 export default function xhr(config: XosRequestConfig): XosPromise {
   let responsePromise: XosPromise = new Promise(function(resolve, reject) {
@@ -13,10 +15,14 @@ export default function xhr(config: XosRequestConfig): XosPromise {
       xtr.timeout = timeout
     }
     xtr.onerror = function() {
-      reject(new Error('netword error'))
+      reject(
+        createError(config, 'Network error', null, xtr)
+      )
     }
     xtr.ontimeout = function() {
-      reject(new Error(`timeout of ${timeout}ms exceeded`))
+      reject(
+        createError(config, `Timeout of ${timeout} ms exceeded`, 'ECONNABORTED', xtr)
+      )
     }
     xtr.onreadystatechange = function() {
       if (xtr.status === 0) {
@@ -43,7 +49,7 @@ export default function xhr(config: XosRequestConfig): XosPromise {
       if (response.status >= 200 && response.status < 300) {
         resolve(response)
       } else {
-        reject(new Error(`Request fail with status code ${response.status}`))
+        reject( createError(config, `Request fail with status code ${response.status}`, response.statusText, xtr, response));
       }
     }
   })

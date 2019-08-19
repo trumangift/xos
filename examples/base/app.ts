@@ -1,4 +1,4 @@
-import xos from '../../src/index';
+import xos, {XosError} from '../../src/index';
 
 // xos({
 //   url: '/base/get',
@@ -95,14 +95,14 @@ import xos from '../../src/index';
 //   }
 // });
 
-let paramsData = 'c=1&d=2';
-let searchParams = new URLSearchParams(paramsData);
+// let paramsData = 'c=1&d=2';
+// let searchParams = new URLSearchParams(paramsData);
 
-xos({
-  method: 'post',
-  url: '/base/post',
-  data: searchParams,
-});
+// xos({
+//   method: 'post',
+//   url: '/base/post',
+//   data: searchParams,
+// });
 
 
 // xos({
@@ -166,17 +166,17 @@ xos({
 //     console.log(e);
 //  })
 
-// xos({
-//    method: 'post',
-//    url: '/base/post/a',
-//    data: {
-//        a: 1,
-//        b: 2,
-//        baz: null
-//    },
-//    timeout: 4000
-//  }).then(d => {
-//     console.log(d);
-//  }).catch(e => {
-//     console.log(e);
-//  })
+xos({
+   method: 'post',
+   url: '/base/post/a',
+   data: {
+       a: 1,
+       b: 2,
+       baz: null
+   },
+   timeout: 4000
+ }).then(d => {
+    console.log(d);
+ }).catch((e: XosError) => {
+    console.log(e.message, e.code, e.config, e.request, e.response);
+ })

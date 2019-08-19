@@ -34,3 +34,12 @@ export interface XosResponseConfig {
 }
 
 export interface XosPromise extends Promise<XosResponseConfig> {}
+
+export interface XosError extends Error {
+  config: XosRequestConfig
+  request?: any
+  message: string
+  code?: string | null
+  response?: XosResponseConfig
+  isXosError: boolean
+}
