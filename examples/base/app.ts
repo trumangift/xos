@@ -1,4 +1,4 @@
-import xos, {XosError} from '../../src/index';
+import xos, {XosError} from '../../src';
 
 // xos({
 //   url: '/base/get',
@@ -166,17 +166,62 @@ import xos, {XosError} from '../../src/index';
 //     console.log(e);
 //  })
 
-xos({
-   method: 'post',
-   url: '/base/post/a',
-   data: {
-       a: 1,
-       b: 2,
-       baz: null
-   },
-   timeout: 4000
- }).then(d => {
-    console.log(d);
- }).catch((e: XosError) => {
-    console.log(e.message, e.code, e.config, e.request, e.response);
- })
+// xos({
+//    method: 'post',
+//    url: '/base/post/a',
+//    data: {
+//        a: 1,
+//        b: 2,
+//        baz: null
+//    },
+//    timeout: 4000
+//  }).then(d => {
+//     console.log(d);
+//  }).catch((e: XosError) => {
+//     console.log(e.message, e.code, e.config, e.request, e.response);
+//  })
+
+
+// xos.get('/extend/get');
+// xos.post('/extend/post', {a: 1, b: 2});
+// xos.put('/extend/put', {a: 1, b: 2});
+// xos.patch('/extend/patch', {a: 1, b: 2});
+
+
+// xos('/base/post', {
+//    method: 'post',
+//    data: {
+//        a: 1,
+//        b: 2,
+//        baz: null
+//    },
+//    timeout: 4000
+//  }).then(d => {
+//     console.log(d);
+//  }).catch((e: XosError) => {
+//     console.log(e.message, e.code, e.config, e.request, e.response);
+//  })
+
+// interface responseData<T = any> {
+//    code: number
+//    result: T
+//    message: string
+// }
+
+// interface user {
+//    name: string
+//    age: number
+// }
+
+// function getUser<T>() {
+//    const result =  xos<responseData<T>>('/extend/user')
+//    .then(res =>  res.result)
+//    .catch(err => console.error(err));
+//    return result;
+// }
+
+// async function test() {
+//    const user = await getUser<user>();
+// }
+
+// test();

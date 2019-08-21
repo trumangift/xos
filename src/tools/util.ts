@@ -1,6 +1,5 @@
-import { type } from 'os'
-
-const toStr = Object.prototype.toString
+import { type } from 'os';
+const toStr = Object.prototype.toString;
 
 export function isDate(val: any): val is Date {
   return toStr.call(val) === '[object Date]'
@@ -70,4 +69,11 @@ export function transformResponseData(data: any): any {
     } catch {}
   }
   return data
+}
+
+export function extend<T,U>(to: T, from: U):T&U{
+     for(let key in from) {
+         (to as T&U )[key] = from[key] as any; 
+     } 
+     return to as T & U;
 }

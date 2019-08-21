@@ -1,5 +1,5 @@
 import xos from './xos';
 
-export * from './types/index';
+export * from './types';
 
 export default xos;

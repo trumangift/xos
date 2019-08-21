@@ -15,7 +15,7 @@ export type Method =
   | 'PATCH'
 
 export interface XosRequestConfig {
-  url: string
+  url?: string
   method?: Method
   data?: any
   param?: any
@@ -24,8 +24,8 @@ export interface XosRequestConfig {
   timeout?: number
 }
 
-export interface XosResponseConfig {
-  data: any
+export interface XosResponseConfig<T = any> {
+  result: T
   status: number
   statusText: string
   header: any
@@ -33,7 +33,7 @@ export interface XosResponseConfig {
   request: any
 }
 
-export interface XosPromise extends Promise<XosResponseConfig> {}
+export interface XosPromise<T = any> extends Promise<XosResponseConfig<T>> {}
 
 export interface XosError extends Error {
   config: XosRequestConfig
@@ -42,4 +42,20 @@ export interface XosError extends Error {
   code?: string | null
   response?: XosResponseConfig
   isXosError: boolean
+}
+
+export interface Xos {
+  request<T = any>(config: XosRequestConfig): XosPromise<T>
+  get<T = any>(url: string, config?: XosRequestConfig): XosPromise<T>
+  delete<T = any>(url: string, config?: XosRequestConfig): XosPromise<T>
+  head<T = any>(url: string, config?: XosRequestConfig): XosPromise<T>
+  options<T = any>(url: string, config?: XosRequestConfig): XosPromise<T>
+  post<T = any>(url: string, data?: any, config?: XosRequestConfig): XosPromise<T>
+  put<T = any>(url: string, data?: any, config?: XosRequestConfig): XosPromise<T>
+  patch<T = any>(url: string, data?: any, config?: XosRequestConfig): XosPromise<T>
+}
+
+export interface XosInstance extends Xos {
+  <T = any>(config: XosRequestConfig): XosPromise<T>
+  <T = any>(url: string, config?: XosRequestConfig): XosPromise<T>
 }

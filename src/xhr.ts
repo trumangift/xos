@@ -10,7 +10,7 @@ export default function xhr(config: XosRequestConfig): XosPromise {
     if (responseType) {
       xtr.responseType = responseType
     }
-    xtr.open(method.toUpperCase(), url, true)
+    xtr.open(method.toUpperCase(), url!, true)
     if (timeout) {
       xtr.timeout = timeout
     }
@@ -31,7 +31,7 @@ export default function xhr(config: XosRequestConfig): XosPromise {
       let responseConfig: XosResponseConfig = {
         statusText: xtr.statusText,
         status: xtr.status,
-        data: transformResponseData(responseType === 'text' ? xtr.responseText : xtr.response),
+        result: transformResponseData(responseType === 'text' ? xtr.responseText : xtr.response),
         header: transResponseHeaderToJSON(xtr.getAllResponseHeaders()),
         config,
         request: xtr
@@ -46,6 +46,9 @@ export default function xhr(config: XosRequestConfig): XosPromise {
     xtr.send(data)
 
     function handleXosResponse(response: XosResponseConfig) {
+      if (xtr.readyState !== 4) {
+        return;
+      }
       if (response.status >= 200 && response.status < 300) {
         resolve(response)
       } else {
