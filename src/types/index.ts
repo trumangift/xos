@@ -1,3 +1,5 @@
+import { isPlainObject } from "../tools/util";
+
 export type Method =
   | 'get'
   | 'GET'
@@ -46,6 +48,7 @@ export interface XosError extends Error {
 
 export interface Xos {
   request<T = any>(config: XosRequestConfig): XosPromise<T>
+  interceptors: Interceptors
   get<T = any>(url: string, config?: XosRequestConfig): XosPromise<T>
   delete<T = any>(url: string, config?: XosRequestConfig): XosPromise<T>
   head<T = any>(url: string, config?: XosRequestConfig): XosPromise<T>
@@ -58,4 +61,33 @@ export interface Xos {
 export interface XosInstance extends Xos {
   <T = any>(config: XosRequestConfig): XosPromise<T>
   <T = any>(url: string, config?: XosRequestConfig): XosPromise<T>
+}
+
+export interface ResolvedFn<T> {
+    (config: T): Promise<T> | T
+}
+
+export interface RejectedFn {
+  (error: any): any
+}
+
+export interface XosInterceptorsManager<T> {
+  use(resolved: ResolvedFn<T>, rejected?: RejectedFn): number
+  inject(interceptorNumber: number): void
+  forEach(fn: (interceptor: Interceptor<T>) => void): void
+}
+
+export interface Interceptors{
+    request:  XosInterceptorsManager<XosRequestConfig>
+    response:  XosInterceptorsManager<XosResponseConfig>
+}
+
+export interface PromiseChain<T> {
+    resolved: ResolvedFn<T> | ((config: XosRequestConfig) => void)
+    rejected?: RejectedFn
+}
+
+export interface Interceptor<T> {
+  resolved: ResolvedFn<T>
+  rejected?: RejectedFn
 }

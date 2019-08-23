@@ -1,4 +1,14 @@
-import xos, {XosError} from '../../src';
+import xos, {XosError, XosRequestConfig} from '../../src';
+import { config } from 'shelljs';
+xos.interceptors.request.use(config => {
+    config.header.token = '1';
+    return config;
+});
+
+xos.interceptors.response.use(data => {
+    return data;
+});
+
 
 // xos({
 //   url: '/base/get',
@@ -81,19 +91,19 @@ import xos, {XosError} from '../../src';
 
 
 
-// xos({
-//   method: 'post',
-//   url: '/base/post',
-//   header: {
-//      'content-type': 'application/json;charset=utf-8',
-//      'Accept': 'application/json,text/plain,*/*'
-//   },
-//   data: {
-//       a: 1,
-//       b: 2,
-//       baz: null
-//   }
-// });
+xos({
+  method: 'post',
+  url: '/base/post',
+  header: {
+     'content-type': 'application/json;charset=utf-8',
+     'Accept': 'application/json,text/plain,*/*'
+  },
+  data: {
+      a: 1,
+      b: 2,
+      baz: null
+  }
+});
 
 // let paramsData = 'c=1&d=2';
 // let searchParams = new URLSearchParams(paramsData);
@@ -195,12 +205,7 @@ import xos, {XosError} from '../../src';
 //        b: 2,
 //        baz: null
 //    },
-//    timeout: 4000
-//  }).then(d => {
-//     console.log(d);
-//  }).catch((e: XosError) => {
-//     console.log(e.message, e.code, e.config, e.request, e.response);
-//  })
+//  });
 
 // interface responseData<T = any> {
 //    code: number

@@ -5,8 +5,8 @@ import {extend}  from './tools/util';
 
 function createInstance(): XosInstance {
     let xos = new Xos();
-    let xosInstance =  Xos.prototype.request.bind(xos);
-    return extend(xosInstance, xos) as XosInstance;
+    let xosRequest =  Xos.prototype.request.bind(xos);
+    return extend(xosRequest, xos) as XosInstance;
 }
 
 const xos = createInstance();

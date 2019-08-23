@@ -1,7 +1,17 @@
-import { XosRequestConfig, XosPromise, Method } from '../types';
+import { XosRequestConfig, XosPromise, Method, Interceptors, XosResponseConfig,
+ ResolvedFn, RejectedFn, PromiseChain } from '../types';
 import dispatchRequest from './dispatchRequest';
+import InterceptorsManage from './interceptorsManage';
+
 
 export default class Xos {
+    interceptors: Interceptors
+    constructor() {
+        this.interceptors = {
+            request: new InterceptorsManage<XosRequestConfig>(),
+            response: new InterceptorsManage<XosResponseConfig>()
+        }
+    }
     request(url: string): XosPromise
     request(config: XosRequestConfig): XosPromise
     request(url: any, config?: XosRequestConfig): XosPromise
@@ -14,7 +24,24 @@ export default class Xos {
         } else {
             config = url;
         }
-        return dispatchRequest(config!);
+        const chain: PromiseChain<any>[] = [{
+            resolved: dispatchRequest,
+            rejected: undefined
+        }];
+
+        this.interceptors.request.forEach(t => {
+             chain.unshift(t);
+        });
+        this.interceptors.response.forEach(t => {
+            chain.push(t);
+       });
+       let chainPromise =  Promise.resolve(config!);
+        
+       while(chain.length) {
+           let {resolved, rejected} = chain.shift()!;
+           chainPromise = chainPromise.then(resolved, rejected);
+       }
+       return chainPromise as XosPromise;
     }
     get(url: string, config?: XosRequestConfig): XosPromise {
         return this._requestMethodWithoutData('get',  url, config);
