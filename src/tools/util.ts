@@ -1,4 +1,4 @@
-import { XosRequestConfig, Method } from '../types'
+import { XosRequestConfig, Method, XosStatic } from '../types'
 import transform from '../core/transform'
 
 const toStr = Object.prototype.toString

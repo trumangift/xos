@@ -51,7 +51,6 @@ export interface XosError extends Error {
   response?: XosResponseConfig
   isXosError: boolean
 }
-
 export interface Xos {
   request<T = any>(config: XosRequestConfig): XosPromise<T>
   interceptors: Interceptors
@@ -64,10 +63,13 @@ export interface Xos {
   put<T = any>(url: string, data?: any, config?: XosRequestConfig): XosPromise<T>
   patch<T = any>(url: string, data?: any, config?: XosRequestConfig): XosPromise<T>
 }
-
 export interface XosInstance extends Xos {
   <T = any>(config: XosRequestConfig): XosPromise<T>
   <T = any>(url: string, config?: XosRequestConfig): XosPromise<T>
+}
+
+export interface XosStatic extends XosInstance {
+  create<T = any>(config?: XosRequestConfig): XosInstance
 }
 
 export interface ResolvedFn<T> {

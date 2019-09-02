@@ -259,34 +259,39 @@ import qs from 'qs';
 //     console.log(d);
 // });
 
+// let newXosInstance = xos.create(
+//   {
+//     url: '/base/post',
+//     data: {a:1,b:2},
+//     method: 'post',
+//     header: {
+//         test: 'test'
+//     },
+//     transformRequest: [
+//       (data) => {
+//         data.c = 3;
+//         return qs.stringify(data);
+//       },
+//       (data, header) => {
+//           header.test = 2; 
+//           return data;
+//       }
+//     ],
+//     transformResponse: [
+//       ...(xos.defaults.transformResponse as XosTransformer[]),
+//       (data) => {
+//         if (typeof data === 'object') {
+//           data.c = 5;
+//         }
+//         return data;
+//       }
+//     ],
+//   }
+// );
 
 
-xos({
-  url: '/base/post',
-  data: {a:1,b:2},
-  method: 'post',
-  header: {
-      test: 'test'
-  },
-  transformRequest: [
-    (data) => {
-      data.c = 3;
-      return qs.stringify(data);
-    },
-    (data, header) => {
-        header.test = 2; 
-        return data;
-    }
-  ],
-  transformResponse: [
-    ...(xos.defaults.transformResponse as XosTransformer[]),
-    (data) => {
-      if (typeof data === 'object') {
-        data.c = 5;
-      }
-      return data;
-    }
-  ],
-}).then(d => {
-    console.log(d);
-});
+// newXosInstance({
+//   data: {c:3},
+// }).then(d => {
+//    console.log(d);
+// });

@@ -1,8 +1,8 @@
+import qs from 'qs'
 import { XosRequestConfig, XosResponseConfig, XosPromise } from './types/index'
 import { transResponseHeaderToJSON, isPlainObject } from './tools/util'
 import { createError } from './tools/error'
 import transform from './core/transform'
-import qs from 'qs'
 
 export default function xhr(config: XosRequestConfig): XosPromise {
   let responsePromise: XosPromise = new Promise(function(resolve, reject) {

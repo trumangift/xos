@@ -4,7 +4,8 @@ import {
   Method,
   Interceptors,
   XosResponseConfig,
-  PromiseChain
+  PromiseChain,
+  XosInstance
 } from '../types'
 import dispatchRequest from './dispatchRequest'
 import InterceptorsManage from './interceptorsManage'
