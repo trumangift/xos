@@ -1,13 +1,33 @@
-import xos, {XosError, XosRequestConfig} from '../../src';
-import { config } from 'shelljs';
-xos.interceptors.request.use(config => {
-    config.header.token = '1';
-    return config;
-});
 
-xos.interceptors.response.use(data => {
-    return data;
-});
+import xos, {XosError, XosRequestConfig, XosTransformer} from '../../src';
+import qs from 'qs';
+
+// xos.interceptors.request.use(config => {
+//     config.header.token = '1';
+//     return config;
+// });
+
+// xos.interceptors.response.use(data => {
+//     return data;
+// });
+
+// xos.defaults.header.common['test1'] = 'test1';
+// xos({
+//   url: '/base/post',
+//   data: qs.stringify({a:1,b:2}),
+//   method: 'post',
+//   header: {
+//       test: 'test'
+//   }
+// }).then(d => {
+//     console.log(d);
+// });
+
+
+
+
+
+
 
 
 // xos({
@@ -91,19 +111,15 @@ xos.interceptors.response.use(data => {
 
 
 
-xos({
-  method: 'post',
-  url: '/base/post',
-  header: {
-     'content-type': 'application/json;charset=utf-8',
-     'Accept': 'application/json,text/plain,*/*'
-  },
-  data: {
-      a: 1,
-      b: 2,
-      baz: null
-  }
-});
+// xos({
+//   method: 'post',
+//   url: '/base/post',
+//   data: {
+//       a: 1,
+//       b: 2,
+//       baz: null
+//   }
+// });
 
 // let paramsData = 'c=1&d=2';
 // let searchParams = new URLSearchParams(paramsData);
@@ -230,3 +246,47 @@ xos({
 // }
 
 // test();
+
+
+// xos({
+//   url: '/base/post',
+//   data: qs.stringify({a:1,b:2}),
+//   method: 'post',
+//   header: {
+//       test: 'test'
+//   }
+// }).then(d => {
+//     console.log(d);
+// });
+
+
+
+xos({
+  url: '/base/post',
+  data: {a:1,b:2},
+  method: 'post',
+  header: {
+      test: 'test'
+  },
+  transformRequest: [
+    (data) => {
+      data.c = 3;
+      return qs.stringify(data);
+    },
+    (data, header) => {
+        header.test = 2; 
+        return data;
+    }
+  ],
+  transformResponse: [
+    ...(xos.defaults.transformResponse as XosTransformer[]),
+    (data) => {
+      if (typeof data === 'object') {
+        data.c = 5;
+      }
+      return data;
+    }
+  ],
+}).then(d => {
+    console.log(d);
+});

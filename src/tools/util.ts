@@ -1,5 +1,7 @@
-import { type } from 'os';
-const toStr = Object.prototype.toString;
+import { XosRequestConfig, Method } from '../types'
+import transform from '../core/transform'
+
+const toStr = Object.prototype.toString
 
 export function isDate(val: any): val is Date {
   return toStr.call(val) === '[object Date]'
@@ -71,9 +73,64 @@ export function transformResponseData(data: any): any {
   return data
 }
 
-export function extend<T,U>(to: T, from: U):T&U{
-     for(let key in from) {
-         (to as T&U )[key] = from[key] as any; 
-     } 
-     return to as T & U;
+export function extend<T, U>(to: T, from: U): T & U {
+  for (let key in from) {
+    ;(to as T & U)[key] = from[key] as any
+  }
+  return to as T & U
+}
+
+export function deepCopy(...objs: any[]) {
+  let result = Object.create(null)
+  objs.forEach(t => {
+    if (t) {
+      Object.keys(t).forEach(key => {
+        let val = t[key]
+        if (isPlainObject(val)) {
+          if (isPlainObject(result[key])) {
+            result[key] = deepCopy(result[key], val)
+          } else {
+            result[key] = deepCopy(val)
+          }
+        } else {
+          result[key] = val
+        }
+      })
+    }
+  })
+  return result
+}
+
+export function mergeConfig(
+  config1: XosRequestConfig,
+  config2?: XosRequestConfig
+): XosRequestConfig {
+  if (!config2) {
+    config2 = {}
+  }
+  let header1 = config1.header || {}
+  let header2 = config2.header || {}
+
+  let copyHeader = deepCopy(header1, header2)
+
+  let mergerd: XosRequestConfig = {
+    ...config1,
+    ...config2
+  }
+  if (mergerd.header) {
+    mergerd.header = copyHeader
+  }
+  return mergerd
+}
+
+export function flattenHeaders(headers: any, method: Method): any {
+  if (!headers) {
+    return
+  }
+  headers = deepCopy(headers.common, headers[method], headers)
+  let methodsToDelete = ['get', 'post', 'delete', 'put', 'patch', 'head', 'options', 'common']
+  methodsToDelete.forEach(key => {
+    delete headers[key]
+  })
+  return headers
 }

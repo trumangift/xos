@@ -1,4 +1,4 @@
-import { isPlainObject } from "../tools/util";
+import { isPlainObject } from '../tools/util'
 
 export type Method =
   | 'get'
@@ -24,6 +24,12 @@ export interface XosRequestConfig {
   header?: any
   responseType?: XMLHttpRequestResponseType
   timeout?: number
+  transformRequest?: XosTransformer[] | XosTransformer
+  transformResponse?: XosTransformer[] | XosTransformer
+}
+
+export interface XosTransformer {
+  (data: any, headers?: any): any
 }
 
 export interface XosResponseConfig<T = any> {
@@ -49,6 +55,7 @@ export interface XosError extends Error {
 export interface Xos {
   request<T = any>(config: XosRequestConfig): XosPromise<T>
   interceptors: Interceptors
+  defaults: XosRequestConfig
   get<T = any>(url: string, config?: XosRequestConfig): XosPromise<T>
   delete<T = any>(url: string, config?: XosRequestConfig): XosPromise<T>
   head<T = any>(url: string, config?: XosRequestConfig): XosPromise<T>
@@ -64,7 +71,7 @@ export interface XosInstance extends Xos {
 }
 
 export interface ResolvedFn<T> {
-    (config: T): Promise<T> | T
+  (config: T): Promise<T> | T
 }
 
 export interface RejectedFn {
@@ -77,14 +84,14 @@ export interface XosInterceptorsManager<T> {
   forEach(fn: (interceptor: Interceptor<T>) => void): void
 }
 
-export interface Interceptors{
-    request:  XosInterceptorsManager<XosRequestConfig>
-    response:  XosInterceptorsManager<XosResponseConfig>
+export interface Interceptors {
+  request: XosInterceptorsManager<XosRequestConfig>
+  response: XosInterceptorsManager<XosResponseConfig>
 }
 
 export interface PromiseChain<T> {
-    resolved: ResolvedFn<T> | ((config: XosRequestConfig) => void)
-    rejected?: RejectedFn
+  resolved: ResolvedFn<T> | ((config: XosRequestConfig) => void)
+  rejected?: RejectedFn
 }
 
 export interface Interceptor<T> {
